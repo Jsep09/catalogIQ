@@ -1,13 +1,10 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from slowapi import Limiter
-from slowapi.util import get_remote_address
 from services.retriever import retrieve_relevant_chunks
 from services.llm import stream_answer
 
 router = APIRouter()
-limiter = Limiter(key_func=get_remote_address)
 
 class ChatRequest(BaseModel):
     message: str
@@ -16,11 +13,10 @@ class ChatRequest(BaseModel):
     def validated_message(self):
         msg = self.message.strip()
         if not msg:
-            raise ValueError("Message cannot be empty")
+            raise HTTPException(status_code=400, detail="Message cannot be empty")
         return msg[:500]
 
 @router.post("/api/chat/stream")
-@limiter.limit("10/minute")
 async def chat_stream(request: Request, body: ChatRequest):
     msg = body.validated_message
     chunks = retrieve_relevant_chunks(msg)

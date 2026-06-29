@@ -14,7 +14,10 @@ class ChatRequest(BaseModel):
 
     @property
     def validated_message(self):
-        return self.message[:500]  # จำกัด 500 ตัวอักษร
+        msg = self.message.strip()
+        if not msg:
+            raise ValueError("Message cannot be empty")
+        return msg[:500]
 
 @router.post("/api/chat/stream")
 @limiter.limit("10/minute")

@@ -35,8 +35,8 @@ export function ChatWindow() {
   return (
     <div className="flex h-screen bg-[#0a0a0a] text-white overflow-hidden">
 
-      {/* Sidebar */}
-      <div className="w-60 border-r border-white/8 flex flex-col p-4 shrink-0">
+      {/* Sidebar — hidden on mobile */}
+      <div className="hidden md:flex w-60 border-r border-white/8 flex-col p-4 shrink-0">
         <div className="flex items-center gap-2.5 mb-6">
           <div className="w-7 h-7 rounded-lg bg-white flex items-center justify-center shrink-0">
             <span className="text-black font-bold text-xs">IQ</span>
@@ -68,7 +68,7 @@ export function ChatWindow() {
       </div>
 
       {/* Main area */}
-      <div className="flex flex-col flex-1 min-w-0">
+      <div className="flex flex-col flex-1 min-w-0 min-h-0">
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto">
@@ -110,7 +110,7 @@ export function ChatWindow() {
                 </div>
 
                 {/* Capabilities */}
-                <div className="grid grid-cols-2 gap-2 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
                   {[
                     { icon: '🔍', text: 'ค้นหาสินค้าตามชื่อหรือ spec' },
                     { icon: '💰', text: 'เปรียบเทียบราคาสินค้า' },
@@ -126,7 +126,7 @@ export function ChatWindow() {
 
                 {/* Suggestions */}
                 <p className="text-xs text-white/20 mb-2 px-1">ลองถามได้เลย</p>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {SUGGESTIONS.map((s) => (
                     <button
                       key={s}

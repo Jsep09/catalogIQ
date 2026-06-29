@@ -25,7 +25,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(upload.router, prefix="/api")
+if os.getenv("ENABLE_UPLOAD", "false").lower() == "true":
+    app.include_router(upload.router, prefix="/api")
+
 app.include_router(chat.router)
 
 @app.get("/")
